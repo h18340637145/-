@@ -1,0 +1,18 @@
+# DTS设备树
+## 内核对设备树的支持
+### 对设备树中平台信息的处理(选择machine_desc)
+#### 内核是如何选择对应的
+
+一个编译为image的内核镜像文件，可以支持多个单板，这些板子的配置少有不同，需要做一些单独的初始化。
+
+内核中针对这些单板,构造了一个machine_desc结构体，里面有.init和.nr。
+```C++
+struct machine_desc {
+    const char      *name;
+    const char      **dt_compat;
+    void            (*init_early)(void);
+    void            (*init_per_cpu)(unsigned int);
+    void            (*init_machine)(void);
+    void            (*init_late)(void);
+};
+```
